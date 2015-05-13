@@ -34,6 +34,7 @@ public class AuthenticationController extends Controller {
   }
 
   public Result login() {
+    
     DynamicForm form = Form.form().bindFromRequest();
     String email = form.get("email");
     String password = form.get("password");

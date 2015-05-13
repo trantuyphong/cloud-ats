@@ -5,6 +5,10 @@
 # for testing only
 GET     /test                           @controllers.Application.index()
 GET     /test/create                    @controllers.Application.createUser()
+GET		/test/current					@controllers.Application.current()
+GET		/test/login						@controllers.Application.login()
+GET		/test/logout					@controllers.Application.logout()
+GET		/test/currentnotuser			@controllers.Application.currentWithNotUser()
 
 ################################## RESTful API ######################################
 

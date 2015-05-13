@@ -6,6 +6,8 @@ lazy val root = (project in file(".")).enablePlugins(PlayJava)
 
 scalaVersion := "2.11.1"
 
+testNGSettings
+
 libraryDependencies ++= Seq(
   cache,
 	"org.ats" % "cloud-common" % "1.0.0-Alpha-1-SNAPSHOT",
@@ -14,7 +16,7 @@ libraryDependencies ++= Seq(
 	"org.ats.services" % "event" % "1.0.0-Alpha-1-SNAPSHOT"
 )
 
-
-resolvers += (
-	"Local Maven Repository" at "file://" + Path.userHome.absolutePath  + "/java/dependencies/repository"		
+resolvers ++= Seq(
+   Resolver.sonatypeRepo("snapshots"),
+   Resolver.mavenLocal
 )
