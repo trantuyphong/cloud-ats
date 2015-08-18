@@ -4,7 +4,7 @@
 
   <properties>
 		<jclouds.version>1.9.0</jclouds.version>
-		<cloudats.version>1.0.0</cloudats.version>
+		<cloudats.version>1.1-SNAPSHOT</cloudats.version>
   </properties>
 
   <groupId>org.ats</groupId>
