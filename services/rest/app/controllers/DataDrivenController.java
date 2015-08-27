@@ -3,6 +3,9 @@
  */
 package controllers;
 
+import java.util.List;
+
+import org.ats.common.PageList;
 import org.ats.services.OrganizationContext;
 import org.ats.services.datadriven.DataDriven;
 import org.ats.services.datadriven.DataDrivenFactory;
@@ -21,8 +24,10 @@ import play.mvc.Result;
 import actions.CorsComposition;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.inject.Inject;
+import com.mongodb.BasicDBObject;
 
 /**
  * @author <a href="mailto:haithanh0809@gmail.com">Nguyen Thanh Hai</a>
@@ -32,9 +37,6 @@ import com.google.inject.Inject;
 @CorsComposition.Cors
 @Authenticated
 public class DataDrivenController extends Controller {
-  
-  @Inject
-  DataDrivenService service;
   
   @Inject
   OrganizationContext context;
@@ -57,17 +59,37 @@ public class DataDrivenController extends Controller {
   @Inject
   CaseService caseService;
   
+  public Result list() {
+    
+    PageList<DataDriven> pages = dataDrivenService.list();
+    ArrayNode arrayData = Json.newObject().arrayNode();
+    
+    while (pages.hasNext()) {
+      List<DataDriven> list = pages.next();
+      
+      for (DataDriven data : list) {
+        arrayData.add(Json.parse(data.toString()));
+      }
+    }
+    return status(200, arrayData);
+  }
+  
   public Result create() {
     JsonNode json = request().body().asJson();
     String name = json.get("name").asText();
     String caseId = json.get("caseId").asText();
     JsonNode dataset = json.get("dataset");
     
-    Case caze = caseService.get(caseId);
     DataDriven driven = dataDrivenFactory.create(name, dataset.toString());
-    
     dataDrivenService.create(driven);
+    
+    if ("null".equals(caseId)) {
+      return status(200, Json.parse(driven.toString()));
+    }
+    
     String drivenId = driven.getId();
+    Case caze = caseService.get(caseId);
+    
     caze.setDataDriven(dataRefFactory.create(drivenId));
     caseService.update(caze);
     return ok(Json.parse(driven.toString()));
@@ -75,7 +97,7 @@ public class DataDrivenController extends Controller {
   
   public Result get(String id) {
     
-    DataDriven driven = service.get(id);
+    DataDriven driven = dataDrivenService.get(id);
     ObjectNode json = Json.newObject();
     
     json.put("data", Json.parse(driven.toString()));
@@ -83,20 +105,31 @@ public class DataDrivenController extends Controller {
     return ok(json);
   }
   
-  public Result delete(String id) {
+  public Result delete() {
     
-    service.delete(id);
-    return ok();
+    String id = request().body().asText();
+    DataDrivenReference dataRef = dataRefFactory.create(id);
+    
+    PageList<Case> pages = caseService.query(new BasicDBObject("data_driven", dataRef.toJSon()));
+    while (pages.hasNext()) {
+      List<Case> list = pages.next();
+      for (Case caze : list) {
+        caze.setDataDriven(null);
+        caseService.update(caze);
+      }
+    }
+    
+    dataDrivenService.delete(id);
+    
+    return status(200);
   }
   
   public Result update() {
-    
     JsonNode json = request().body().asJson();
     String id = json.get("id").asText();
     JsonNode dataset = json.get("dataset");
     DataDriven driven = dataDrivenService.get(id);
     String name = json.get("name").asText();
-    
     if (dataset.toString().equals(driven.getDataSource()) && name.equals(driven.getName())) {
       return status(304);
     }
@@ -106,4 +139,6 @@ public class DataDrivenController extends Controller {
     
     return status(200, Json.parse(driven.toString()));
   }
+  
 }
+
