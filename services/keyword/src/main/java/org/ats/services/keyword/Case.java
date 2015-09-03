@@ -76,7 +76,7 @@ public class Case extends AbstractTemplate {
   }
   
   public void setDataDriven(DataDrivenReference driven) {
-    this.put("data_driven", driven.toJSon());
+    this.put("data_driven", driven != null ? driven.toJSon() : null);
   }
   
   public DataDrivenReference getDataDriven() {
