@@ -199,7 +199,7 @@ public class TrackingJobActor extends UntypedActor {
 
     JenkinsMaster jenkinsMaster = new JenkinsMaster(jenkinsVM.getPublicIp(), "http", "/jenkins", 8080);
     JenkinsMavenJob jenkinsJob = new JenkinsMavenJob(jenkinsMaster, job.getId(), 
-        null , "/home/cloudats/projects/" + job.getId() + "/pom.xml", goalsBuilder.toString());
+        "master" , "/home/cloudats/projects/" + job.getId() + "/pom.xml", goalsBuilder.toString());
 
     jenkinsJob.submit();
 
