@@ -258,7 +258,12 @@ public class OpenStackService implements IaaSServiceInterface {
           atsTenant.put("network_id", network.getId());
           logger.log(Level.INFO, "Created network for tenant " + tenantRef.getId());
           
-          CreateSubnet createSubnet = CreateSubnet.createBuilder(network.getId(), "192.168.1.0/24").ipVersion(4).name(tenantRef.getId() + "-subnet").build();
+          CreateSubnet createSubnet = CreateSubnet
+              .createBuilder(network.getId(), "192.168.1.0/24")
+              .ipVersion(4)
+              .name(tenantRef.getId() + "-subnet")
+              .dnsNameServers(ImmutableSet.<String>of("8.8.8.8", "8.8.4.4"))
+              .build();
           Subnet subnet = neutronAPI.getSubnetApi(region).create(createSubnet);
           atsTenant.put("subnet_id", subnet.getId());
           logger.log(Level.INFO, "Created subnet for tenant " + tenantRef.getId());
