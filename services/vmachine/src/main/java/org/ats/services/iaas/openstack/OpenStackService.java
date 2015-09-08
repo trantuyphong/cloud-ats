@@ -118,7 +118,7 @@ public class OpenStackService implements IaaSServiceInterface {
       @Named("org.ats.cloud.openstack.nova.provider") String novaProvider,
       @Named("org.ats.cloud.openstack.externalnetwork") String externalNetwork,
       @Named("org.ats.cloud.openstack.defaultrole") String defaultRole,
-      @Named("org.ats.cloud.openstack.image.systemm") String systemImage,
+      @Named("org.ats.cloud.openstack.image.system") String systemImage,
       @Named("org.ats.cloud.openstack.image.ui") String uiImage,
       @Named("org.ats.cloud.openstack.image.nonui") String nonUIImage,
       MongoDBService mongo) {
