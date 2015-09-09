@@ -28,7 +28,7 @@ public class DragToAndDropElement extends AbstractAction {
   }
   
   public String transform() throws IOException {
-    String template = "new Actions(wd).dragAndDrop(wd.findElement(@source), wd.findElement(@destination).build().perform();\n";
+    String template = "new Actions(wd).dragAndDrop(wd.findElement(@source), wd.findElement(@destination)).build().perform();\n";
     return Rythm.render(template, source.transform(), destination.transform());
   }
 

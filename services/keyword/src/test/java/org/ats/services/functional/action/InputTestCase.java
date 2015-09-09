@@ -81,7 +81,7 @@ public class InputTestCase {
     json.put("targetLocator", targetLocator);
     
     AbstractAction action = actionFactory.createAction(json);
-    Assert.assertEquals(action.transform(), "new Actions(wd).dragAndDrop(wd.findElement(By.id(\"i am source\")), wd.findElement(By.id(\"i am dest\")).build().perform();\n");
+    Assert.assertEquals(action.transform(), "new Actions(wd).dragAndDrop(wd.findElement(By.id(\"i am source\")), wd.findElement(By.id(\"i am dest\"))).build().perform();\n");
     
     locator.put("type", "id");
     locator.put("value", "${source}");
@@ -92,7 +92,7 @@ public class InputTestCase {
     json.put("targetLocator", targetLocator);
     
     action = actionFactory.createAction(json);
-    Assert.assertEquals(action.transform(), "new Actions(wd).dragAndDrop(wd.findElement(By.id(source)), wd.findElement(By.id(dest)).build().perform();\n");
+    Assert.assertEquals(action.transform(), "new Actions(wd).dragAndDrop(wd.findElement(By.id(source)), wd.findElement(By.id(dest))).build().perform();\n");
   }
   
   @Test
