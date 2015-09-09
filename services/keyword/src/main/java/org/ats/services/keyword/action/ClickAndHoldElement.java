@@ -23,7 +23,7 @@ public class ClickAndHoldElement extends AbstractAction {
   }
 
   public String transform() throws IOException {
-    String template = "new Actions(wd).clickAndHold(wd.findElement(@locator)).build.perform();\n";
+    String template = "new Actions(wd).clickAndHold(wd.findElement(@locator)).build().perform();\n";
     return Rythm.render(template, locator.transform());
   }
 

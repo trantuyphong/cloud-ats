@@ -114,7 +114,7 @@ public class InputTestCase {
     json.put("locator", locator);
     
     AbstractAction clickAndHoldElement = actionFactory.createAction(json);
-    Assert.assertEquals(clickAndHoldElement.transform(), "new Actions(wd).clickAndHold(wd.findElement(By.id(\"foo\"))).build.perform();\n");
+    Assert.assertEquals(clickAndHoldElement.transform(), "new Actions(wd).clickAndHold(wd.findElement(By.id(\"foo\"))).build().perform();\n");
   }
   
   @Test
