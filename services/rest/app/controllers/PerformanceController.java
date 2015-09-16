@@ -197,7 +197,7 @@ public class PerformanceController extends Controller {
     
     executorService.deleteBy(new BasicDBObject("project_id", id));
     jmeterService.deleteBy(new BasicDBObject("project_id", id));
-    projectService.delete(project);
+    projectService.delete(id);
     
     return status(200);
   }

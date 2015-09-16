@@ -181,8 +181,7 @@ public class KeywordController extends Controller {
     suiteService.deleteBy(new BasicDBObject("project_id", id));
     caseService.deleteBy(new BasicDBObject("project_id", id));
     customKeywordService.deleteBy(new BasicDBObject("project_id", id));
-    keywordProjectService.delete(project);
-    
+    keywordProjectService.delete(id);
     return status(200);
   }
   
